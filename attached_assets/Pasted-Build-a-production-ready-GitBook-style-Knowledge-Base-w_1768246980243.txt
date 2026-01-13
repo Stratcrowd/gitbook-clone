@@ -1,0 +1,141 @@
+Build a production-ready GitBook-style Knowledge Base web app for “Thinking Robot”.
+
+Goal:
+
+A public docs website similar to GitBook: left sidebar navigation with expandable categories + nested pages, breadcrumbs, previous/next navigation, and full-text search.
+
+An admin panel where I (admin) can create/edit docs, categories, and nested hierarchies.
+
+Content should support headings (H1/H2/H3), code blocks, tables, images, callouts, and links.
+
+I should be able to import articles quickly (manual import is fine to start; Google Docs/Notion sync can be Phase 2).
+
+Reference structure (like this):
+
+Home page shows tiles/cards for collections (e.g., Projects, PICO BOT, PCB Manufacturing, etc.)
+
+Inside a collection: categories + nested pages, like:
+
+Projects
+
+IOT Projects
+
+Smart Plant Monitoring…
+
+PICO BOT
+
+Beginners Guide and Assembly
+
+Control on WiFi using ESP32
+
+Autonomous using Arduino
+
+PCB Designing and Manufacturing
+
+Manufacture PCB at home
+
+Intro to PCBs and how it’s made
+
+Tech Requirements:
+
+Framework: Next.js (App Router) + TypeScript.
+
+Styling: Tailwind + shadcn/ui.
+
+Database: Supabase Postgres (or Postgres + Prisma). Use Prisma ORM.
+
+Auth: NextAuth (credentials login) with roles (admin/user). Only admin can edit content.
+
+Deployment: Vercel-ready (env vars, build scripts).
+
+Content rendering: Markdown/MDX rendering with syntax highlighting.
+
+Editor: Admin editor should support Markdown + image upload. If possible, use a rich editor (Tiptap) but store as Markdown/HTML consistently.
+
+Core Features (Public):
+
+Home page:
+
+Shows “Collections” as cards (title, description, icon).
+
+Collection page:
+
+Left sidebar with categories and nested pages (tree).
+
+Main reading view with:
+
+title
+
+optional description
+
+table of contents (auto from headings)
+
+previous/next navigation
+
+Search:
+
+Search box in header; searches titles + body content.
+
+Results page with highlighted snippets.
+
+SEO:
+
+Clean URLs: /{collectionSlug}/{pageSlug} with nesting handled.
+
+OpenGraph tags and proper metadata.
+
+Core Features (Admin):
+
+/admin dashboard (protected):
+
+CRUD for Collections, Categories, Pages.
+
+Hierarchy builder:
+
+Pages can have parentId to create nested structure.
+
+Ability to reorder items (drag & drop if possible; otherwise up/down buttons).
+
+Import tools (Phase 1):
+
+“Paste Markdown” → creates a new page under selected category/parent.
+
+“Upload images” → stored in Supabase Storage (or local during dev).
+
+Bulk import (Phase 1 simple):
+
+Accept a ZIP with Markdown files and a JSON map describing hierarchy OR accept a single Markdown and auto-create headings as subpages (optional).
+
+Phase 2 (optional scaffolding only, do not block MVP):
+
+Google Docs import: user pastes a Google Doc link and the app imports exported HTML/Docx (no OAuth in MVP).
+
+Notion sync: manual only (export markdown) in MVP; later API sync.
+
+Database Models (suggested):
+
+User(id, email, passwordHash, role)
+
+Collection(id, title, slug, description, icon)
+
+Category(id, collectionId, title, slug, order)
+
+Page(id, collectionId, categoryId, parentId nullable, title, slug, content, contentType, order, published, createdAt, updatedAt)
+
+PageSearchIndex (optional for faster search)
+
+Acceptance Criteria:
+
+I can deploy on Vercel with Supabase env vars.
+
+Public site works: browse by sidebar, open pages, see TOC, prev/next.
+
+Admin can login and create a collection/category/page, reorder hierarchy, paste markdown, upload images.
+
+Search works across pages.
+
+No credentials hardcoded; everything via env vars.
+
+Deliver:
+
+Full codebase with clear README: setup, env vars, Supabase schema migration, deploy steps.
