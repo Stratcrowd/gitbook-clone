@@ -40,7 +40,7 @@
         "./shared/*"
       ],
       "@server/*": [
-        "server/*"
+        "api/_lib/*"
       ]
     }
   }
