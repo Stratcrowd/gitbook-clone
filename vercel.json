@@ -5,8 +5,7 @@
   "outputDirectory": "dist/public",
   "rewrites": [
     {
-      "source": "/api/(.*)",
-      "destination": "/api/index.ts"
+      "destination": "/api/serverless.ts"
     },
     {
       "source": "/(.*)",
